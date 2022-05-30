@@ -5,9 +5,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.sensors.RomiGyro;
+
 
 public class RomiDrivetrain extends SubsystemBase {
   private static final double kCountsPerRevolution = 1440.0;
@@ -23,8 +24,8 @@ public class RomiDrivetrain extends SubsystemBase {
   private final Encoder m_leftEncoder = new Encoder(4, 5);
   private final Encoder m_rightEncoder = new Encoder(6, 7);
 
-  // Set up the differential drive controller
-  private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
+  // Set up the RomiGyro
+  private final RomiGyro m_gyro = new RomiGyro();
 
   /** Creates a new RomiDrivetrain. */
   public RomiDrivetrain() {
@@ -37,10 +38,11 @@ public class RomiDrivetrain extends SubsystemBase {
     m_rightMotor.setInverted(true);
   }
 
-  public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
-    m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+      m_rightMotor.set(rightSpeed);
+      m_leftMotor.set(leftSpeed);
   }
-
+//Encoders
   public void resetEncoders() {
     m_leftEncoder.reset();
     m_rightEncoder.reset();
@@ -54,6 +56,30 @@ public class RomiDrivetrain extends SubsystemBase {
     return m_rightEncoder.getDistance();
   }
 
+  public double getAvgDistanceInch(){
+    return (m_rightEncoder.getDistance()+m_leftEncoder.getDistance())/2;
+  }
+//Set Power
+  public void setBothPower(Double power){
+    m_leftMotor.set(power);
+    m_rightMotor.set(power);
+  }
+
+  public void setLeftPower(Double power){
+    m_leftMotor.set(power);
+  }
+
+  public void setRightPower(Double power){
+    m_rightMotor.set(power);
+  }
+//Reset Gyro
+  public void resetGyro(){
+    m_gyro.reset();
+  }
+
+  public Double getAzimuth(){
+    return m_gyro.getAngleZ();
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

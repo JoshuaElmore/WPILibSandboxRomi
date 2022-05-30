@@ -5,9 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import frc.robot.utils.XboxControllerHelper;
+import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.DriveStraightCommand;
+import frc.robot.commands.TankDriveCommand;
+import frc.robot.commands.TurnCommand;
 import frc.robot.subsystems.RomiDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -17,14 +23,19 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final RomiDrivetrain m_romiDrivetrain = new RomiDrivetrain();
+  private final XboxController driveController = new XboxController(Constants.DRIVE_CONTROLLER_PORT);
+  private final XboxControllerHelper driveControllerHelper = new XboxControllerHelper(driveController);
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_romiDrivetrain);
+  private RomiDrivetrain m_romiDrivetrain;
+
+  private TankDriveCommand defaultDriveCommand;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
+    createSubsystems(); // Create our subsystems.
+    createCommands(); // Create our commands
+    configureButtonBindings(); // Setup our button bindings
+
   }
 
   /**
@@ -33,7 +44,26 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void createSubsystems(){
+    m_romiDrivetrain = new RomiDrivetrain();
+  }
+
+  private void createCommands(){
+    defaultDriveCommand = new TankDriveCommand(
+      m_romiDrivetrain,
+      () -> driveControllerHelper.scaleAxis(driveController.getRightY()),
+      () -> driveControllerHelper.scaleAxis(driveController.getLeftY())
+      );
+    m_romiDrivetrain.setDefaultCommand(defaultDriveCommand);
+  }
+
+  private void configureButtonBindings() {
+    new JoystickButton(driveController, Button.kA.value).whenPressed(new DriveStraightCommand(m_romiDrivetrain, 10.0, 0.6));
+
+    new JoystickButton(driveController, Button.kX.value).whenPressed(new TurnCommand(m_romiDrivetrain, 90.0));
+
+    new JoystickButton(driveController, Button.kStart.value).whenPressed(new ResetGyroCommand(m_romiDrivetrain));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -42,6 +72,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }

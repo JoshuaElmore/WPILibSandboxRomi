@@ -1,36 +1,47 @@
 {
+  "HALProvider": {
+    "Encoders": {
+      "0": {
+        "header": {
+          "open": false
+        }
+      },
+      "1": {
+        "header": {
+          "open": false
+        }
+      }
+    },
+    "Other Devices": {
+      "RomiGyro": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/RomiDrivetrain": "Subsystem",
-      "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Spark[0]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Spark[1]": "Motor Controller"
     }
   },
   "NetworkTables": {
-    "LiveWindow": {
-      "Ungrouped": {
-        "Encoder[0]": {
-          "open": true
-        },
-        "open": true
-      },
-      "open": true
-    },
     "Romi": {
       "Config": {
-        "open": true
+        "open": false
       },
       "Information": {
-        "open": true
+        "open": false
       },
       "Status": {
-        "open": true
-      },
-      "open": true
+        "open": false
+      }
     }
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }
