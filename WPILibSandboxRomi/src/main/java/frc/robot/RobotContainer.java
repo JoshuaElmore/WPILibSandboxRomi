@@ -15,6 +15,7 @@ import frc.robot.subsystems.RomiDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -35,7 +36,6 @@ public class RobotContainer {
     createSubsystems(); // Create our subsystems.
     createCommands(); // Create our commands
     configureButtonBindings(); // Setup our button bindings
-
   }
 
   /**
@@ -44,6 +44,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+  
   private void createSubsystems(){
     m_romiDrivetrain = new RomiDrivetrain();
   }
@@ -60,7 +61,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(driveController, Button.kA.value).whenPressed(new DriveStraightCommand(m_romiDrivetrain, 10.0, 0.6));
 
-    new JoystickButton(driveController, Button.kX.value).whenPressed(new TurnCommand(m_romiDrivetrain, 90.0));
+    new JoystickButton(driveController, Button.kX.value).whenPressed(new TurnCommand(m_romiDrivetrain, -90.0));
 
     new JoystickButton(driveController, Button.kStart.value).whenPressed(new ResetGyroCommand(m_romiDrivetrain));
   }

@@ -17,6 +17,9 @@
         "header": {
           "open": true
         }
+      },
+      "window": {
+        "visible": false
       }
     }
   },
@@ -42,6 +45,12 @@
       "Status": {
         "open": false
       }
+    },
+    "Shuffleboard": {
+      "Drive": {
+        "open": true
+      },
+      "open": true
     }
   }
 }

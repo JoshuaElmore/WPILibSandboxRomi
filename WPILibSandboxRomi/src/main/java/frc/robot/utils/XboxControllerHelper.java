@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 public class XboxControllerHelper {
 
     private XboxController controller;
-    private double deadband = 0.1;
+    private double deadband = 0.05;
     private Function<Double, Double> scaler = this::squared;
     private double rumbleIntensity = 1.0;
 

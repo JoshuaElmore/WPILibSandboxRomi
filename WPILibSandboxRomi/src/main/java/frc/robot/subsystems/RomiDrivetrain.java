@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.sensors.RomiGyro;
 
@@ -27,12 +30,21 @@ public class RomiDrivetrain extends SubsystemBase {
   // Set up the RomiGyro
   private final RomiGyro m_gyro = new RomiGyro();
 
+  ShuffleboardTab tab = Shuffleboard.getTab("Drive");
+  NetworkTableEntry curentHeading;
+
+
   /** Creates a new RomiDrivetrain. */
   public RomiDrivetrain() {
     // Use inches as unit for encoder distances
     m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
     m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
     resetEncoders();
+
+    curentHeading = tab.add("Curent Gyro Angel", 0)
+      .withPosition(0, 0)
+      .withSize(1, 1)
+      .getEntry();
 
     // Invert right side since motor is flipped
     m_rightMotor.setInverted(true);
@@ -83,6 +95,7 @@ public class RomiDrivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    curentHeading.setNumber(getAzimuth());
   }
 
   @Override
