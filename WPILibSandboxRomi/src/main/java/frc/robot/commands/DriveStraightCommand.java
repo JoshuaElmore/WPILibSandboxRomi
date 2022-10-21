@@ -14,9 +14,10 @@ public class DriveStraightCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final RomiDrivetrain romiDrivetrain;
-  private PIDController PIDController = new PIDController(1.0, 0.0, 0.0);
+  private PIDController PIDController = new PIDController(0.0, 0.0, 0.0);
   private final Double length;
   private double threshold = 0.5;
+
 
 
   /**
@@ -42,8 +43,7 @@ public class DriveStraightCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute(){
-    //If we reached the destinasion
-    romiDrivetrain.setBothPower(MathUtil.clamp(PIDController.calculate(romiDrivetrain.getAvgDistanceInch(), length),-1,1));
+    
   }
 
   // Called once the command ends or is interrupted.
